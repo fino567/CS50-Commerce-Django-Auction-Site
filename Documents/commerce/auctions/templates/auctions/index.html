@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h1> Active Listings </h1>
+    {% if Listings%}
+
+        {% for listing in Listings%}
+
+            <div style= "border-style:ridge">
+            {% if listing.img %}
+                <img class="float-right" src="{ { listing.img } }" alt="Image of item to the left"> </br>
+            {% endif %}
+                <div class="media-body">
+                    <h3>{{ listing.title}}</h3></a></br>
+                    <strong> <h5>Price: ${{listing.price}}</h5> </strong></br>
+                    Created {{ listing.date}}</br></br>
+                    <a href= "{% url 'listing' listing.id %}"><button class="btn btn-primary">View Item</button></a></br>
+
+
+                </div>
+            </div></br>
+                
+        {% endfor %} 
+
+    {% else %}
+
+    No current listings.
+
+    {% endif %}
+
+{% endblock %}

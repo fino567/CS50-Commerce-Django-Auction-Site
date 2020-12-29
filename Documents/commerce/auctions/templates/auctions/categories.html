@@ -1,0 +1,48 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+<h2> Select Category Below </h2></br>
+
+<form action "{% url 'categories'%}" method="post"> 
+    {% csrf_token %}
+    <div class="input-group">
+        <select class="custom-select" id="inputGroupSelect01" name="category">
+            {% if current_category %}
+                <option selected>{{current_category}}</option>
+            {% else %}
+                <option selected>Choose Category...</option>
+            {% endif %}
+
+            {% for category in categories %}
+                <option value="{{category}}">{{category}}</option>
+            {% endfor %}
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+        </div>
+    </div>
+</form></br>
+
+{% if Listings%}
+
+    {% for listing in Listings%}
+
+        <div style= "border-style:ridge">
+        {% if listing.img %}
+            <img class="float-right" src="{ { listing.img } }" alt="Image of item to the left"> </br>
+        {% endif %}
+            <div class="media-body">
+                <h3>{{ listing.title}}</h3></a></br>
+                <strong> <h5>Price: ${{listing.price}}</h5> </strong></br>
+                Created {{ listing.date}}</br></br>
+                <a href= "{% url 'listing' listing.id %}"><button class="btn btn-primary">View Item</button></a></br>
+            </div>
+        </div></br>
+                
+    {% endfor %} 
+
+{% endif %}
+
+{% endblock %}

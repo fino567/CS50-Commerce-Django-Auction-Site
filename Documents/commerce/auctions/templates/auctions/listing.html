@@ -1,0 +1,102 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if msg %}
+        <h6 class="alert alert-{{msg_type}}">{{msg}}<h6>
+    {% endif %}
+
+
+<h2> Listing: {{ listing.title}} </h2>
+
+    {% if listing.img %}
+        <img src= "{ { listing.img} }" alt="Image of item above"> </br>
+    {% endif %}
+    
+    {{ listing.description  }}</br></br>
+
+    <strong> <h3>${{listing.price}}<h3> </strong>
+
+    {% if "{{owner}}" %}
+
+        <form action="{% url 'user_listings' %}" method="post">
+
+            {% csrf_token %}
+            
+            <button class="btn btn-danger" type="submit" name="close_bid" value={{listing.id}}>Close Bidding</button></br></br>
+
+        </form> 
+
+
+    {% else %}
+
+        <form action="{% url 'listing' listing.id %}" method="post">
+
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <input class="form-control" type="text" name="bid" placeholder= "Bid">
+            </div>
+            
+            <input class="btn btn-primary" type="submit" value="Place Bid"></br></br>
+
+        </form> 
+
+        <h4> Details </h4>
+        <ul>
+            <li> Listed by: {{listing.user}} </li>
+
+            {% if listing.category %}
+                
+                <li> Category: {{listing.category}} </li>
+            
+            {% else %}
+            
+            <li> Category: No Category Listed </li>
+            {% endif %}
+        </ul>
+
+        <form action="{% url 'watchlist' %}" method="post">
+            {% csrf_token %}
+
+            {% if watchlist_item %}
+
+                <button class="btn btn-danger" type="submit" name="watchlist" value={{listing.id}}>Remove from Watchlist</button>
+            {% else %}
+
+                <button class="btn btn-primary" type="submit" name="watchlist" value={{listing.id}}>Add To Watchlist</button>
+
+            {% endif %}
+        </form></br></br>
+
+    {% endif %}
+
+    <h4> Comments</h4>
+        {%for comment in comments%}
+            <div class="card text-left">
+                <h5 class="card-header h5">{{comment.user}}</h5>
+                <div class="card-body">
+                    <p class="lead">{{comment.comments}}</p>
+                    <p class="card-text">{{comment.timestamp}}</p>
+            </div>
+
+
+        {% empty %}
+            <div class="text-center">
+                <br> <br> 
+                <p class="lead">No Comments Found</p> 
+            </div>
+
+        {% endfor %}</div>
+    <form action="{% url 'listing' listing.id %}" method="post">
+        <div>
+        {% csrf_token%}
+        Add Comment:
+        <textarea class="form-control" name="comment" rows="6"> </textarea>
+        </div></br>
+        
+
+        <input class="btn btn-primary" type="submit" value="Add Comment">
+    </form>
+        
+{% endblock%}

@@ -1,0 +1,36 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if msg%}
+            <h6 class="alert alert-{{msg_type}}">{{msg}}<h6>
+    {% endif %}
+
+
+    <h1> Current Watchlist </h1>
+    {% if watchlist %}
+
+        {% for item in watchlist%}
+
+            <div style= "border-style:ridge">
+            {% if item.img %}
+                <img class="float-right" src="{ { item.img } }" alt="Image of item to the left"> </br>
+            {% endif %}
+                <div class="media-body">
+                    <h3>{{ item.title}}</h3></a></br>
+                    <strong> <h5>Price: ${{item.price}}</h5> </strong></br>
+                    Created {{ item.date}}</br></br>
+                    <a href= "{% url 'listing' item.id %}"><button class="btn btn-primary">View Item</button></a></br>
+
+                </div>
+            </div></br>
+                
+        {% endfor %} 
+
+    {% else %}
+
+    Nothing currently in your watchlist.
+
+    {% endif %}
+
+{% endblock %}

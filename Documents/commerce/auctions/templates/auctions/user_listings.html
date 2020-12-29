@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html"%}
+
+{% block body %}
+
+    {% if Open_Listings or Closed_Listings %}
+
+
+        {% for listing in Open_Listings%}
+
+            <div style= "border-style:ridge">
+            {% if listing.img %}
+                <img class="float-right" src="{ { listing.img } }" alt="Image of item to the left"> </br>
+            {% endif %}
+                <div class="media-body">
+                    <h3>{{ listing.title}}</h3></a></br>
+                    <strong> <h5>Price: ${{listing.price}}</h5> </strong></br>
+                    Created {{ listing.date}}</br></br>
+                    <a href= "{% url 'listing' listing.id %}"><button class="btn btn-primary">View Item</button></a></br>
+
+                </div>
+            </div></br>
+                
+        {% endfor %} 
+
+        {% for listing in Closed_Listings%}
+
+            <div style= "border-style:ridge">
+            {% if listing.img %}
+                <img class="float-right" src="{ { listing.img } }" alt="Image of item to the left"> </br>
+            {% endif %}
+                <div class="media-body">
+                    <h3>{{ listing.title}}</h3></a></br>
+                    <strong> <h5>Price: ${{listing.price}}</h5> </strong></br>
+                    Created {{ listing.date}}</br></br>
+                    <a href= "{% url 'listing' listing.id %}"><button class="btn btn-success">Sold!</button></a></br>
+                </div>
+            </div></br>
+                
+        {% endfor %}
+
+
+    {% else %}
+
+You have never listed items for auction! Get started <a href= <a href= "{% url 'create_listings'%}">here</a>
+
+    {% endif %}
+    
+
+
+
+{% endblock %}
